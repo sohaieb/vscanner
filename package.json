@@ -2,11 +2,11 @@
   "name": "vsscan",
   "module": "index.ts",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "format": "prettier -w .",
-    "compile": "bun build ./index.ts --compile --bytecode --outfile output/vscanner"
+    "compile": "bun ./scripts/build.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
