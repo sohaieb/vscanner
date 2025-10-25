@@ -9,7 +9,21 @@ bun install
 To run:
 
 ```bash
-bun run index.ts
+bun run index.ts -h
 ```
 
-This project was created using `bun init` in bun v1.3.1. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+To compile to an executable file (All-in-One):
+
+```bash
+bun compile
+# you will find the output in:
+(Mac | Linux) > ./output/vscan
+(win)         > ./output/vscan.exe
+```
+
+To execute:
+
+```bash
+(Mac | Linux) > ./output/vscan -h
+(win)         > ./output/vscan.exe -h
+```
