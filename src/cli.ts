@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import { CONSTANTS } from "./constants";
 
 const program = new Command();
 
@@ -8,7 +9,7 @@ export function getCommanderProgram() {
     .description(
       'A CLI application to scan your local from unwanted "vscode" or "vscodium" extensions'
     )
-    .version("Vscanner v0.0.1", "--version", "Display the version of vscanner")
+    .version(`Vscanner v${CONSTANTS}`, "--version", "Display the version of vscanner")
     .option(
       "-i, --impacted-file <FILE>",
       "impacted json file containing array of known impacted extensions with their versions. DEFAULT: ./input/impacted.json",
