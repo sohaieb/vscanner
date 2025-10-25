@@ -1,0 +1,21 @@
+{
+  "name": "vsscan",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "format": "prettier -w .",
+    "compile": "bun build ./index.ts --compile --bytecode --outfile output/vscanner"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prettier": "^3.6.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "commander": "^14.0.2"
+  }
+}
