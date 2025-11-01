@@ -13,24 +13,28 @@ import {
 } from "./src/utils";
 import chalk from "chalk";
 import { $ } from "bun";
+import fs from "fs/promises";
 
 async function main() {
   const program = getCommanderProgram();
-
   const options = program.opts();
-
-  // Init
-  const impactedPath = path.join(
-    options.impactedFile ?? "./input/impacted.json"
-  );
   const vscodeVariant: VSCodeVariant =
     (options.variant as VSCodeVariant) ?? "code";
-
-  // Read Impacted extensions file
-  const impactedExtensions = await loadImpactedExtensionsFileList(impactedPath);
-  const normalizedImpactedExtensions = normalizeVersions(impactedExtensions);
-
   try {
+    const isImpactedExistsInRoot = await fs.exists("./impacted.json");
+
+    const defaultImpactedFile = isImpactedExistsInRoot
+      ? "./impacted.json"
+      : "./input/impacted.json";
+
+    // Init
+    const impactedPath = path.join(options.impactedFile ?? defaultImpactedFile);
+
+    // Read Impacted extensions file
+    const impactedExtensions =
+      await loadImpactedExtensionsFileList(impactedPath);
+    const normalizedImpactedExtensions = normalizeVersions(impactedExtensions);
+
     const systemExtensionsList =
       await getAvailableSystemExtensions(vscodeVariant);
 
@@ -58,4 +62,6 @@ async function main() {
   }
 }
 
-main().then();
+main()
+  .then()
+  .catch((err) => console.log(chalk.red(err?.toString())));

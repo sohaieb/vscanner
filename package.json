@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "format": "prettier -w .",
-    "compile": "bun ./scripts/build.ts"
+    "compile": "bun clean && bun ./scripts/build.ts",
+    "clean": "bun ./scripts/clean.ts",
+    "compress": "bun ./scripts/compress.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
