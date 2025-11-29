@@ -1,4 +1,6 @@
 import chalk from "chalk";
+import ora from "ora";
+import type { SpinnerName, Spinner } from "cli-spinners";
 
 /**
  *  Remove double "@@" of versions
@@ -49,6 +51,24 @@ export function displayFormattedResults(extensions: string[]) {
   });
 }
 
+/**
+ * Display Terminal divider
+ */
 export function displayDivider() {
   console.log(`--------------------`);
+}
+
+/**
+ * Display terminal spinner
+ */
+export function displayLoadingSpinner(
+  label?: string,
+  spinnerType?: SpinnerName | Spinner
+) {
+  const spinner = ora({
+    spinner: spinnerType ?? "circle",
+    text: label,
+  }).start();
+
+  return spinner;
 }

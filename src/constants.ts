@@ -1,7 +1,10 @@
-export const CONSTANTS = {
-  VERSION: "0.0.4",
-  ZIP_INPUT_FOLDER_PATH: "./output/vscan",
-  getZipOutputFilePath: function () {
-    return `./output/vscan-${this.VERSION}.zip`;
+export default {
+  PROJECT_NAME: "VNscanner",
+  PROJECT_VERSION: "0.0.4",
+  getZipConfig: function () {
+    return {
+      outputFilePath: `./output/${this.PROJECT_NAME.toLocaleLowerCase()}-${this.PROJECT_VERSION.toLocaleLowerCase()}.zip`,
+      zipInputFolderPath: `./output/${this.PROJECT_NAME}`,
+    };
   },
 };

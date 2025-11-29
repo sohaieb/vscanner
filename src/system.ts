@@ -5,8 +5,11 @@ import { displayDivider } from "./utils";
 import { Glob } from "bun";
 import fs from "fs/promises";
 import path from "path";
-import { CONSTANTS } from "./constants";
+import constants from "./constants";
 
+const config = constants.getZipConfig();
+
+/** Load impacted extensions list */
 export async function loadImpactedExtensionsFileList(filePath: string) {
   const ftr = Bun.file(filePath);
   const impactedExts = (await ftr.json()) as string[];
@@ -24,20 +27,17 @@ export function getExtensionsList(vscodeVariant: VSCodeVariant) {
 }
 
 /** Create zip file for compiled files */
-export function compress(fileName: string, folderPath: string) {
-  return $`tar -a -c -f "${fileName}" -C ${folderPath} .`;
+export function compress(outputFileName: string, inputFolderPath: string) {
+  return $`tar -a -c -f "${outputFileName}" -C ${inputFolderPath} .`;
 }
 
 /** Generate Zip for builds */
 export async function generateZip() {
   console.log(chalk.blue(`Compression started..`));
-  await compress(
-    CONSTANTS.getZipOutputFilePath(),
-    CONSTANTS.ZIP_INPUT_FOLDER_PATH
-  );
+  await compress(config.outputFilePath, config.zipInputFolderPath);
 }
 
-// Clean output builds
+/** Clean output builds  */
 export async function cleanBuilds() {
   const glob = new Glob("**/*");
   let isError: boolean = false;
@@ -50,10 +50,14 @@ export async function cleanBuilds() {
       await fs.rm(path.join(".", "output", foundPath));
     }
 
-    // Check if output/vscan exists and remove it
-    const vscanFolder = path.join(".", "output", "vscan");
-    if (await fs.exists(vscanFolder)) {
-      await fs.rmdir(vscanFolder);
+    // Check if output/{project_name} exists and remove it
+    const vnScannerFolder = path.join(
+      ".",
+      "output",
+      constants.PROJECT_NAME.toLocaleLowerCase()
+    );
+    if (await fs.exists(vnScannerFolder)) {
+      await fs.rmdir(vnScannerFolder);
     }
 
     isError = false;

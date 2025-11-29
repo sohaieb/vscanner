@@ -1,6 +1,10 @@
 import { $ } from "bun";
 import chalk from "chalk";
 import { generateZip } from "../src/system";
+import constants from "../src/constants";
+
+const outdir = `./output/${constants.PROJECT_NAME.toLocaleLowerCase()}`;
+const outfilePrefix = constants.PROJECT_NAME.toLocaleLowerCase();
 
 /**
  * This addresses a specific bug relevant to BunJS:
@@ -8,15 +12,15 @@ import { generateZip } from "../src/system";
  */
 const windowsBuild = Bun.build({
   entrypoints: ["./index.ts"],
-  outdir: "./output/vscan",
+  outdir,
   bytecode: true,
   minify: true,
   compile: {
     target: "bun-windows-x64",
-    outfile: "vscan-win",
+    outfile: `${outfilePrefix}-win`,
     windows: {
       //   copyright: "TODO",
-      //   description: "Vscan is an unwanted VScode and VScodium extensions canner",
+      //   description: `${constants.PROJECT_NAME} is an unwanted VScode and VScodium extensions canner`,
       //   publisher: "TODO",
       //   version: CONSTANTS.VERSION,
       //   icon: "./misc/scan.ico",
@@ -27,22 +31,22 @@ const windowsBuild = Bun.build({
 const linuxBuild = Bun.build({
   entrypoints: ["./index.ts"],
 
-  outdir: "./output/vscan",
+  outdir,
   // bytecode: true,
   // minify: true,
   compile: {
-    outfile: "vscan-linux",
+    outfile: `${outfilePrefix}-linux`,
     target: "bun-linux-x64",
   },
 });
 
 const macBuild = Bun.build({
   entrypoints: ["./index.ts"],
-  outdir: "./output/vscan",
+  outdir,
   // bytecode: true,
   // minify: true,
   compile: {
-    outfile: "vscan-mac",
+    outfile: `${outfilePrefix}-mac`,
     target: "bun-darwin-x64",
   },
 });
@@ -64,7 +68,7 @@ async function main() {
       displayError("mac", results[2].reason);
     } else {
       await generateZip();
-      await $`cp ./input/impacted.json ./output/vscan`;
+      await $`cp ./input/impacted.json ${outdir}`;
       console.log(chalk.green("Build finished successfully!"));
     }
   } catch (error) {
@@ -72,7 +76,9 @@ async function main() {
   }
 }
 
-function displayError(level: "windows" | "linux" | "mac", reason: any) {
+type Platform = "windows" | "linux" | "mac";
+
+function displayError(level: Platform, reason: any) {
   console.log(chalk.red(`Error in '${chalk.bold(level)}' build level`));
   console.error(reason);
 }
