@@ -19,11 +19,11 @@ const windowsBuild = Bun.build({
     target: "bun-windows-x64",
     outfile: `${outfilePrefix}-win`,
     windows: {
-      //   copyright: "TODO",
-      //   description: `${constants.PROJECT_NAME} is an unwanted VScode and VScodium extensions canner`,
-      //   publisher: "TODO",
-      //   version: CONSTANTS.VERSION,
-      //   icon: "./misc/scan.ico",
+      // copyright: "Made by Sohaieb Azaiez",
+      description: `${constants.PROJECT_NAME} is an unwanted VScode/VScodium extensions and NPM supply chain attack scanner`,
+      publisher: "Sohaieb Azaiez",
+      version: constants.PROJECT_VERSION,
+      icon: "./misc/scan.ico",
     },
   },
 });
@@ -69,6 +69,7 @@ async function main() {
     } else {
       await generateZip();
       await $`cp ./input/impacted.json ${outdir}`;
+      await $`cp ./input/output.json ${outdir}`;
       console.log(chalk.green("Build finished successfully!"));
     }
   } catch (error) {
