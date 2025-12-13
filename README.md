@@ -4,7 +4,13 @@ VNScanner is a script to make an easy fast scan of your local system to catch th
 
 VScode or VCodium scan bases on the provided `./input/impacted.json` list of the vulnerable extensions, as well as it can be extended manually by your own or set a custom json file in the options (below).
 
-Npm-scan bases on an input file of the packages infected (collected via trusted cybersecurity websites). You can transform CSV file using the command `vnscanner transform <input-file>  [output-file]`.
+- Npm-scan bases on an input file of the packages infected (collected via trusted cybersecurity websites). You can transform CSV file using the command `vnscanner transform <input-file>  [output-file]`.
+
+  Check [To execute NPM supply chain attack scan](#-to-execute-npm-supply-chain-attack-scan) section below.
+
+- VNScanner now supports scanning your repositories from **React2Shell vulnerabilities** [CVE-2025-66478](https://nextjs.org/blog/CVE-2025-66478).
+
+  Check [To execute React2Shell scan](#-to-execute-react2shell-scan) section below.
 
 ## 🚀 To install dependencies:
 
