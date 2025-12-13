@@ -6,6 +6,7 @@ import { Glob } from "bun";
 import fs from "fs/promises";
 import path from "path";
 import constants from "./constants";
+import { spawn } from "child_process";
 
 const config = constants.getZipConfig();
 
@@ -71,4 +72,32 @@ export async function cleanBuilds() {
       console.log(chalk.green(`Cleaning ended successfully!`));
     }
   }
+}
+
+type InteractiveProcessArgs = {
+  command: string;
+  args: string[];
+  cwd: string;
+};
+/** Run process in interactive mode */
+export function runInteractiveProcess({
+  command,
+  args,
+  cwd,
+}: InteractiveProcessArgs) {
+  return new Promise((res, rej) => {
+    const subprocess = spawn(command, args, {
+      cwd,
+      stdio: "inherit",
+      shell: true,
+    });
+
+    subprocess.on("exit", (code) => {
+      if (code === 0) {
+        res(undefined);
+      } else {
+        rej(new Error(`Process ended with code ${0}`));
+      }
+    });
+  });
 }
