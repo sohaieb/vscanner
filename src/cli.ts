@@ -6,6 +6,7 @@ import {
 } from "./tools/npm-scan-helpers";
 import { startScan as startScanCode } from "./tools/vs-scan-helpers";
 import { displayLoadingSpinner } from "./utils";
+import { startScan as startScanR2S } from "./tools/react2shell-helper";
 
 const program = new Command();
 
@@ -70,6 +71,33 @@ export function getCommanderProgram() {
       spinner.stop();
     });
 
+  /**
+   * React2Shell packages scanner
+   */
+  program
+    .command("r2s")
+    .description(
+      "Scan your a folder from react2shell vulnerabilities (CVE-2025-66478 (React 2 Shell RCE) - Next.js / React RSC apps)"
+    )
+    .argument(
+      "<inputFolder>",
+      "Path of the input folder to base on when scanning (only 1 level)"
+    )
+    .option(
+      "-n,--include-node-modules",
+      "Include node modules scan. Default: false",
+      false
+    )
+    .action(async (inputFolder: string, options) => {
+      const spinner = displayLoadingSpinner();
+      await startScanR2S(inputFolder, options.includeNodeModules);
+      spinner.clear();
+      spinner.stop();
+    });
+
+  /**
+   *  Transform CSV file to JSON
+   */
   program
     .command("transform")
     .description("Transform a CSV file into JSON")
